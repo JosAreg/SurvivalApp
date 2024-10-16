@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Barometer } from 'expo-sensors';
-import { ThemeContext } from '../../App';
+import { ThemeContext } from '../../ThemeContext'; // ThemeContext aus ThemeContext.js importieren
 
 export default function Height() {
   const { isDarkMode } = useContext(ThemeContext);

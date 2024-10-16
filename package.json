@@ -11,7 +11,7 @@
   "dependencies": {
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/stack": "^6.4.1",
-    "expo": "^51.0.38",
+    "expo": "^45.0.8",
     "expo-location": "~17.0.1",
     "expo-sensors": "~13.0.9",
     "expo-status-bar": "~1.12.1",
@@ -22,7 +22,7 @@
     "react-native-screens": "3.31.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.24.0"
   },
   "private": true
 }

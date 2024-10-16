@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Location from 'expo-location';
-import { ThemeContext } from '../../App';
+import { ThemeContext } from '../../ThemeContext'; // ThemeContext importieren
 
 export default function Speedometer() {
   const { isDarkMode } = useContext(ThemeContext);
@@ -31,13 +31,13 @@ export default function Speedometer() {
         distanceInterval: 0.1,
       },
       (location) => {
-        setSpeed(location.coords.speed * 3.6);
+        setSpeed(location.coords.speed * 3.6); // Geschwindigkeit von m/s zu km/h umwandeln
       }
     );
   };
 
   const _unsubscribe = () => {
-    Location.hasServicesEnabledAsync().then(enabled => {
+    Location.hasServicesEnabledAsync().then((enabled) => {
       if (enabled) {
         Location.stopLocationUpdatesAsync();
       }

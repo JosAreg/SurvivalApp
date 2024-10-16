@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image, Animated } from 'react-native';
+import { StyleSheet, View, Text, Animated } from 'react-native';
 import { Magnetometer } from 'expo-sensors';
-import { ThemeContext } from '../../App';
+import { ThemeContext } from '../../ThemeContext'; // Import the ThemeContext
 
 export default function Compass() {
   const { isDarkMode } = useContext(ThemeContext);
-  const [magnetometerData, setMagnetometerData] = useState(null);
+  const [magnetometerData, setMagnetometerData] = useState({ x: 0, y: 0, z: 0 });
   const angle = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
-    _toggle();
+    _subscribe();
     return () => {
       _unsubscribe();
     };
@@ -25,14 +25,6 @@ export default function Compass() {
       }).start();
     }
   }, [magnetometerData]);
-
-  const _toggle = () => {
-    if (magnetometerData) {
-      _unsubscribe();
-    } else {
-      _subscribe();
-    }
-  };
 
   const _subscribe = () => {
     Magnetometer.setUpdateInterval(1000);
@@ -61,7 +53,7 @@ export default function Compass() {
       <Text style={[styles.heading, isDarkMode ? styles.darkText : styles.lightText]}>Compass</Text>
       <View style={styles.compassContainer}>
         <Animated.Image
-          source={require('../../assets/compass_needle.png')}
+          source={isDarkMode ? require('../../assets/compass_needle_dark.png') : require('../../assets/compass_needle.png')}
           style={[styles.needle, { transform: [{ rotate }] }]}
         />
         <View style={styles.compassDirection}>
@@ -73,7 +65,7 @@ export default function Compass() {
             <Text key={deg} style={[styles.degreeText, isDarkMode ? styles.darkText : styles.lightText, {
               transform: [
                 { rotate: `${deg - 90}deg` },
-                { translateX: 110 },
+                { translateX: 80 }, // Kleinere Translation für Gradangaben
                 { rotate: `${90 - deg}deg` },
               ],
             }]}>
@@ -110,8 +102,8 @@ const styles = StyleSheet.create({
   },
   compassContainer: {
     position: 'relative',
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -122,14 +114,14 @@ const styles = StyleSheet.create({
   },
   compassDirection: {
     position: 'absolute',
-    width: 200,
-    height: 200,
+    width: 250,
+    height: 250,
     justifyContent: 'center',
     alignItems: 'center',
   },
   directionText: {
     position: 'absolute',
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
   },
   north: { top: 10 },
@@ -138,7 +130,7 @@ const styles = StyleSheet.create({
   west: { left: 10 },
   degreeText: {
     position: 'absolute',
-    fontSize: 12,
+    fontSize: 16,
     color: '#333',
   },
 });

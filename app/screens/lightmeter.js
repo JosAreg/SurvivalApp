@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { LightSensor } from 'expo-sensors';
-import { ThemeContext } from '../../App'; // Import the ThemeContext
+import { ThemeContext } from '../../ThemeContext'; // Import the ThemeContext from ThemeContext.js
 
 export default function LightMeter() {
   const { isDarkMode } = useContext(ThemeContext); // Use the ThemeContext

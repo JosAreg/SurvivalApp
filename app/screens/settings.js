@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { StyleSheet, View, Button, Text, TouchableOpacity } from 'react-native';
-import { ThemeContext } from '../../App'; // ThemeContext importieren
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { ThemeContext } from '../../ThemeContext'; // ThemeContext aus ThemeContext.js importieren
 
 export default function Settings() {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
@@ -9,7 +9,9 @@ export default function Settings() {
     <View style={[styles.container, isDarkMode ? styles.darkContainer : styles.lightContainer]}>
       <Text style={[styles.text, isDarkMode ? styles.darkText : styles.lightText]}>Settings</Text>
       <TouchableOpacity onPress={toggleTheme} style={styles.purpleButton}>
-        <Text style={styles.buttonText}>{isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}</Text>
+        <Text style={styles.buttonText}>
+          {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        </Text>
       </TouchableOpacity>
     </View>
   );

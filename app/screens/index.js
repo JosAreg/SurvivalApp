@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ThemeContext } from '../../App';
+import { ThemeContext } from '../../ThemeContext'; // Import the ThemeContext
 
 export default function Home() {
   const { isDarkMode } = useContext(ThemeContext);
@@ -51,11 +51,5 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 18,
-  },
-  lightText: {
-    color: '#000',
-  },
-  darkText: {
-    color: '#fff',
   },
 });
