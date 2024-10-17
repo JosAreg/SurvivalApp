@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "ios": {
       "supportsTablet": true
@@ -28,7 +28,11 @@
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
-      ]
+      ],
+      "statusBar": {
+        "backgroundColor": "#000000",
+        "barStyle": "light-content"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -38,7 +42,7 @@
         "projectId": "1cbefd00-7f91-4542-9ffc-5b45871a7838"
       }
     },
-    "runtimeVersion": "1.0.2",
+    "runtimeVersion": "1.0.4",
     "updates": {
       "url": "https://u.expo.dev/1cbefd00-7f91-4542-9ffc-5b45871a7838"
     }

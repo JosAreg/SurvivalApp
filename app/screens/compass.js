@@ -5,11 +5,11 @@ import { ThemeContext } from '../../ThemeContext'; // Import the ThemeContext
 
 export default function Compass() {
   const { isDarkMode } = useContext(ThemeContext);
-  const [magnetometerData, setMagnetometerData] = useState({ x: 0, y: 0, z: 0 });
+  const [magnetometerData, setMagnetometerData] = useState(null);
   const angle = useState(new Animated.Value(0))[0];
 
   useEffect(() => {
-    _subscribe();
+    _toggle();
     return () => {
       _unsubscribe();
     };
@@ -26,6 +26,14 @@ export default function Compass() {
     }
   }, [magnetometerData]);
 
+  const _toggle = () => {
+    if (magnetometerData) {
+      _unsubscribe();
+    } else {
+      _subscribe();
+    }
+  };
+
   const _subscribe = () => {
     Magnetometer.setUpdateInterval(1000);
     Magnetometer.addListener((data) => {
@@ -40,13 +48,25 @@ export default function Compass() {
   const _degree = (magnetometer) => {
     let { x, y } = magnetometer;
     let angle = Math.atan2(y, x) * (180 / Math.PI);
-    return angle >= 0 ? angle : angle + 360;
+    angle = angle -90; // 90 Grad hinzufügen, um die Ausrichtung anzupassen
+
+    // Sicherstellen, dass der Winkel zwischen 0 und 360 Grad bleibt
+    if (angle > 360) {
+      angle = angle - 360;
+    } else if (angle < 0) {
+      angle = angle + 360;
+    }
+
+    return angle;
   };
 
   const rotate = angle.interpolate({
     inputRange: [0, 360],
     outputRange: ['0deg', '360deg'],
   });
+
+  // Aktuelle Gradzahl berechnen
+  const currentDegree = magnetometerData ? _degree(magnetometerData).toFixed(2) : 'Keine Daten';
 
   return (
     <View style={[styles.container, isDarkMode ? styles.darkContainer : styles.lightContainer]}>
@@ -61,19 +81,13 @@ export default function Compass() {
           <Text style={[styles.directionText, styles.east, isDarkMode ? styles.darkText : styles.lightText]}>E</Text>
           <Text style={[styles.directionText, styles.south, isDarkMode ? styles.darkText : styles.lightText]}>S</Text>
           <Text style={[styles.directionText, styles.west, isDarkMode ? styles.darkText : styles.lightText]}>W</Text>
-          {[0, 90, 180, 270].map((deg) => (
-            <Text key={deg} style={[styles.degreeText, isDarkMode ? styles.darkText : styles.lightText, {
-              transform: [
-                { rotate: `${deg - 90}deg` },
-                { translateX: 80 }, // Kleinere Translation für Gradangaben
-                { rotate: `${90 - deg}deg` },
-              ],
-            }]}>
-              {deg === 0 ? '0°' : `${deg}°`}
-            </Text>
-          ))}
         </View>
       </View>
+
+      {/* Gradposition unterhalb des Kompasses anzeigen */}
+      <Text style={[styles.degreeText, isDarkMode ? styles.darkText : styles.lightText]}>
+        Aktuelle Gradposition: {currentDegree}°
+      </Text>
     </View>
   );
 }
@@ -129,8 +143,7 @@ const styles = StyleSheet.create({
   south: { bottom: 10 },
   west: { left: 10 },
   degreeText: {
-    position: 'absolute',
-    fontSize: 16,
-    color: '#333',
+    fontSize: 18,
+    marginTop: 20,  // Abstand zum Kompass
   },
 });

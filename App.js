@@ -8,20 +8,36 @@ import Height from './app/screens/height';
 import LightMeter from './app/screens/lightmeter';
 import Speedometer from './app/screens/speedometer';
 import Settings from './app/screens/settings';
-import { ThemeProvider, ThemeContext, lightTheme, darkTheme } from './ThemeContext'; // Import ThemeContext und ThemeProvider
+import { ThemeProvider, ThemeContext, lightTheme, darkTheme } from './ThemeContext';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView, StyleSheet } from 'react-native';
 
-const Stack = createStackNavigator();
-
+// Haupt-App-Komponente
 export default function App() {
   return (
     <ThemeProvider>
-      <Navigation />
+      <MainApp />
     </ThemeProvider>
   );
 }
 
+// Haupt-App-Layout mit SafeAreaView und Navigation
+function MainApp() {
+  const { isDarkMode } = useContext(ThemeContext);
+
+  return (
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: isDarkMode ? '#000' : '#fff' }]}>
+      <StatusBar style={isDarkMode ? 'light' : 'dark'} />
+      <Navigation />
+    </SafeAreaView>
+  );
+}
+
+// Navigation
+const Stack = createStackNavigator();
+
 function Navigation() {
-  const { isDarkMode } = useContext(ThemeContext); // Greife auf den ThemeContext hier zu
+  const { isDarkMode } = useContext(ThemeContext);
 
   return (
     <NavigationContainer theme={isDarkMode ? darkTheme : lightTheme}>
@@ -36,3 +52,9 @@ function Navigation() {
     </NavigationContainer>
   );
 }
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
+});
