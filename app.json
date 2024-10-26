@@ -16,7 +16,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/SVALogo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.jajosia.SurvivalApp",
@@ -42,7 +42,7 @@
         "projectId": "1cbefd00-7f91-4542-9ffc-5b45871a7838"
       }
     },
-    "runtimeVersion": "1.0.4",
+    "runtimeVersion": "1.0.5",
     "updates": {
       "url": "https://u.expo.dev/1cbefd00-7f91-4542-9ffc-5b45871a7838"
     }
